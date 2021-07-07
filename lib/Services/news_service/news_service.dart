@@ -1,13 +1,14 @@
 import 'package:bells_mirror/datamodel/news_model.dart';
 import 'package:bells_mirror/utils/test_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 abstract class NewsService {
   Stream<List<NewsModel>> listenForNewsService();
 
   Future<void> addNews({NewsModel news});
 
-  Future<void> deleteNews({String documentId});
+  Future<void> deleteNews({String documentId, String path});
 }
 
 class NewsServiceFake extends NewsService {
@@ -15,7 +16,7 @@ class NewsServiceFake extends NewsService {
   Future<void> addNews({NewsModel news}) {}
 
   @override
-  Future<void> deleteNews({String documentId}) {}
+  Future<void> deleteNews({String documentId, String path}) {}
 
   @override
   Stream<List<NewsModel>> listenForNewsService() async* {
@@ -32,8 +33,12 @@ class NewsServiceReal extends NewsService {
   }
 
   @override
-  Future<void> deleteNews({String documentId}) async {
+  Future<void> deleteNews({String documentId, String path}) async {
     await firestore.collection("admin").doc(documentId).delete();
+
+ await FirebaseStorage()
+        .ref()
+        .child(path).delete();
   }
 
   @override

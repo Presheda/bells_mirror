@@ -1,5 +1,7 @@
 
+import 'package:bells_mirror/Services/image_service/image_service.dart';
 import 'package:bells_mirror/Services/news_service/news_service.dart';
+import 'package:bells_mirror/Services/upload_image_service/upload_image_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +22,11 @@ void setupServices() {
   locator.registerFactory<CloudFunctionService>(() => CloudFunctionServiceReal());
   locator.registerFactory<NotificationService>(() => NotificationServiceReal());
 
-  locator.registerFactory<NewsService>(() => NewsServiceFake());
+  locator.registerFactory<NewsService>(() => NewsServiceReal());
+
+  locator.registerFactory<PickImageService>(() => PickImageServiceReal());
+
+  locator.registerFactory<UploadImageService>(() => UploadImageServiceReal());
 
 
 

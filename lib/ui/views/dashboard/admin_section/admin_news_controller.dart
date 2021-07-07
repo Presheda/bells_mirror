@@ -54,6 +54,7 @@ class AdminNewsWidgetController extends GetxController {
   void deleteNews({int index}) async {
 
     String documentId =  newsList[index].documentId;
+    String path = newsList[index].path;
 
     newsList.removeAt(index);
     update();
@@ -63,7 +64,7 @@ class AdminNewsWidgetController extends GetxController {
 
     showInfoSnackBar(message: "News delete");
 
-     _newsService.deleteNews(documentId: documentId);
+     _newsService.deleteNews(documentId: documentId, path: path);
 
 
   }

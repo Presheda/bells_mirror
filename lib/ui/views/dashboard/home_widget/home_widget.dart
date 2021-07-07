@@ -4,6 +4,7 @@ import 'package:bells_mirror/ui/views/dashboard/home_widget/home_widget_controll
 import 'package:bells_mirror/ui/views/dashboard/news_details_widget/news_details.dart';
 import 'package:bells_mirror/utils/constant_string.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:get/get.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -109,17 +110,29 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ),
               ])),
-              SliverToBoxAdapter(
+              model.newsList.isEmpty
+                  ? SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    "No News Yet",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                ),
+              )
+                  : SliverToBoxAdapter(
                 child: Container(
                   height: Get.height * 0.35,
                   width: Get.width * 0.55,
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (c, index) {
-                      return _breakingNewsWidget();
+                      return _breakingNewsWidget(model : model, index : index);
                     },
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
+                    itemCount: model.newsList.length,
                   ),
                 ),
               )
@@ -128,12 +141,17 @@ class HomeWidget extends StatelessWidget {
         });
   }
 
-  Widget _breakingNewsWidget() {
-    var data = NewsModel(
-        topic: "Update on Busa dinner", author: "admin", date: 1625573454566);
+  Widget _breakingNewsWidget({HomeWidgetController model, int index}) {
+    var data = model.newsList[index];
 
 
-    String date = "4 hours ago";
+
+
+
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(data.date);
+    String date = timeago.format(dateTime);
+
+
 
     return Padding(
       padding: const EdgeInsets.only(right: 20, bottom: 20, top: 15, left: 15),
@@ -148,7 +166,7 @@ class HomeWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(Constant.lectureFree))),
+                      image: NetworkImage(data.image),)),
             ),
           ),
           SizedBox(

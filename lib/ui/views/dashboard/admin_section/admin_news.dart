@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'add_news_screen.dart';
 import 'admin_news_controller.dart';
 
 class AdminNewsWidget extends StatelessWidget {
@@ -30,7 +31,13 @@ class AdminNewsWidget extends StatelessWidget {
                 Icons.add,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+
+                Get.to(AddNewsScreen(), fullscreenDialog: true, transition: Transition.rightToLeft);
+
+
+
+              },
             ),
             body: CustomScrollView(
               physics: BouncingScrollPhysics(),
@@ -114,46 +121,55 @@ class AdminNewsWidget extends StatelessWidget {
   Widget _newsWidget({int index, AdminNewsWidgetController model}) {
     var newsData = model.newsList[index];
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: Get.width * 0.4,
-            height: Get.height * 0.15,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(Constant.lectureFree),
-                )),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(newsData.topic,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                IconButton(
-                    icon: Icon(Icons.delete_outline),
-                    onPressed: () {
-                      model.deleteNews(index: index);
-                    })
-              ],
+
+
+    return InkWell(
+      onTap: (){
+
+
+        Get.to(AddNewsScreen(data: newsData,), fullscreenDialog: true, transition: Transition.rightToLeft);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15, bottom: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: Get.width * 0.4,
+              height: Get.height * 0.15,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:  NetworkImage(newsData.image),
+                  )),
             ),
-          )
-        ],
+            SizedBox(
+              width: 15,
+            ),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(newsData.topic,
+                        style:
+                            TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.delete_outline),
+                      onPressed: () {
+                        model.deleteNews(index: index);
+                      })
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

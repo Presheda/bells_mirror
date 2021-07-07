@@ -2,6 +2,7 @@ import 'package:bells_mirror/ui/views/dashboard/search_widget/search_widget_cont
 import 'package:bells_mirror/utils/constant_string.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class SearchWidget extends StatelessWidget {
   @override
@@ -149,6 +150,15 @@ class SearchWidget extends StatelessWidget {
   Widget _newsWidget({int index, SearchWidgetController model}) {
     var newsData = model.newsList[index];
 
+
+
+
+
+
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(newsData.date);
+    String date = timeago.format(dateTime);
+
+
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 15),
       child: Row(
@@ -162,7 +172,7 @@ class SearchWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(Constant.lectureFree),
+                  image: NetworkImage(newsData.image),
                 )),
           ),
           SizedBox(
