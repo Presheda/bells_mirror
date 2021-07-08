@@ -29,6 +29,9 @@ class BookmarkServiceReal extends BookmarkService {
 
   @override
   Future<void> addNews({NewsModel news}) async {
+
+    print("Added to bookmark");
+
     await firestore.collection("bookmark").doc(news.documentId).set(news.toMap());
   }
 

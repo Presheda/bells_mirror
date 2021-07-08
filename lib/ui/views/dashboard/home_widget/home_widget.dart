@@ -34,11 +34,19 @@ class HomeWidget extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Container(
+                   model.newsList.isEmpty ? Container(
+                     height: Get.height * 0.3,
+                     child: Center(
+                       child: Text("Fetching news..", style: TextStyle(
+                         fontSize: 16,
+                         fontWeight: FontWeight.bold
+                       ),),
+                     ),
+                   ) :   Container(
                         height: Get.height * 0.3,
                         child: InkWell(
                           onTap: (){
-                         //   Get.to(NewsDetails(), fullscreenDialog: true, transition: Transition.rightToLeft);
+                            Get.to(NewsDetails(newsModel: model.newsList[0],), fullscreenDialog: true, transition: Transition.rightToLeft);
                           },
                           child: Stack(
                             children: [
@@ -46,7 +54,7 @@ class HomeWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: AssetImage(Constant.lectureFree)),
+                                        image: NetworkImage(model.newsList[0].image)),
                                     borderRadius: BorderRadius.circular(15)),
                               ),
                               Opacity(
@@ -68,7 +76,7 @@ class HomeWidget extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(15),
                                   child: Text(
-                                    "Lecture Free Week",
+                                    model.newsList[0].topic,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
@@ -80,6 +88,8 @@ class HomeWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+
+
                       SizedBox(
                         height: 30,
                       ),
