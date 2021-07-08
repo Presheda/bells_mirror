@@ -1,4 +1,5 @@
 
+import 'package:bells_mirror/Services/bookmark_service/bookmark_service.dart';
 import 'package:bells_mirror/Services/image_service/image_service.dart';
 import 'package:bells_mirror/Services/news_service/news_service.dart';
 import 'package:bells_mirror/Services/upload_image_service/upload_image_service.dart';
@@ -23,6 +24,8 @@ void setupServices() {
   locator.registerFactory<NotificationService>(() => NotificationServiceReal());
 
   locator.registerFactory<NewsService>(() => NewsServiceReal());
+
+  locator.registerFactory<BookmarkService>(() => BookmarkServiceReal());
 
   locator.registerFactory<PickImageService>(() => PickImageServiceReal());
 

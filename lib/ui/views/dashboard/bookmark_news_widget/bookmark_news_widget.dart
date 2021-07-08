@@ -2,6 +2,7 @@ import 'package:bells_mirror/datamodel/news_model.dart';
 import 'package:bells_mirror/ui/shared/full_screen_dialog_appbar.dart';
 import 'package:bells_mirror/ui/shared/info_snackbar.dart';
 import 'package:bells_mirror/ui/views/dashboard/breaking_news_widget/breaking_widget_controller.dart';
+import 'package:bells_mirror/ui/views/dashboard/news_details_widget/news_details.dart';
 import 'package:bells_mirror/ui/views/dashboard/search_widget/search_widget_controller.dart';
 import 'package:bells_mirror/utils/constant_string.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,7 +80,18 @@ class BookmarkNewsWidget extends StatelessWidget {
               ),
 
 
-              SliverPadding(
+              model.newsList.isEmpty
+                  ? SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    "No Bookmarked News Yet",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                ),
+              ) :    SliverPadding(
                 padding: EdgeInsets.only(
                   top: 20,
                   left: 20,
@@ -104,59 +116,62 @@ class BookmarkNewsWidget extends StatelessWidget {
   }
 
   Widget _newsWidget({int index, BookmarkNewsWidgetController model}) {
-
-
     var newsData = model.newsList[index];
 
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 15,
-        bottom: 15
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: Get.width*0.4,
-            height: Get.height * 0.15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(Constant.lectureFree),
-              )
+    return InkWell(
+      onTap: (){
+        Get.to(NewsDetails(newsModel: newsData,), fullscreenDialog: true, transition: Transition.rightToLeft);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 15,
+          bottom: 15
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: Get.width*0.4,
+              height: Get.height * 0.15,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(Constant.lectureFree),
+                )
+              ),
             ),
-          ),
 
-          SizedBox(
-            width: 15,
-          ),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text( newsData.topic, style : TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  )),
-                ),
-
-                SizedBox(
-                  width: 5,
-                ),
-
-                IconButton(icon: Icon(Icons.bookmark), onPressed: (){
-                  showInfoSnackBar(message: "Bookmark clicked");
-                })
-
-              ],
+            SizedBox(
+              width: 15,
             ),
-          )
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text( newsData.topic, style : TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    )),
+                  ),
+
+                  SizedBox(
+                    width: 5,
+                  ),
+
+                  IconButton(icon: Icon(Icons.bookmark), onPressed: (){
+                    model.removeBookmark(index);
+                  })
+
+                ],
+              ),
+            )
 
 
-        ],
+          ],
+        ),
       ),
     );
 
