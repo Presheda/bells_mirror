@@ -317,11 +317,15 @@ class NewsDetails extends StatelessWidget {
                                   )
                                 : Container(
                                     height: Get.height * 0.35,
+
                                     child: ListView.builder(
                                       physics: BouncingScrollPhysics(),
                                       itemBuilder: (c, index) {
-                                        return _breakingNewsWidget(
-                                            model: model, index: index);
+                                        return Container(
+                                          width: Get.width * 0.65,
+                                          child: _breakingNewsWidget(
+                                              model: model, index: index),
+                                        );
                                       },
                                       scrollDirection: Axis.horizontal,
                                       itemCount: model.newsList.length,
@@ -365,6 +369,8 @@ class NewsDetails extends StatelessWidget {
           ),
           Text(
             data.topic,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontSize: 19, color: Colors.black, fontWeight: FontWeight.bold),
           ),

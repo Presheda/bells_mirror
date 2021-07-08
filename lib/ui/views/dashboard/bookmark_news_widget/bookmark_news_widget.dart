@@ -138,7 +138,7 @@ class BookmarkNewsWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(Constant.lectureFree),
+                  image: NetworkImage(newsData.image),
                 )
               ),
             ),
@@ -151,7 +151,11 @@ class BookmarkNewsWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Text( newsData.topic, style : TextStyle(
+                    child: Text( newsData.topic,
+
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style : TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold
                     )),

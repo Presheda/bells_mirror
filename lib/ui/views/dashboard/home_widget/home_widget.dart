@@ -77,6 +77,8 @@ class HomeWidget extends StatelessWidget {
                                   padding: const EdgeInsets.all(15),
                                   child: Text(
                                     model.newsList[0].topic,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
@@ -139,7 +141,10 @@ class HomeWidget extends StatelessWidget {
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (c, index) {
-                      return _breakingNewsWidget(model : model, index : index);
+                      return Container(
+                          width: Get.width * 0.65,
+
+                          child: _breakingNewsWidget(model : model, index : index));
                     },
                     scrollDirection: Axis.horizontal,
                     itemCount: model.newsList.length,
@@ -181,6 +186,8 @@ class HomeWidget extends StatelessWidget {
             ),
             Text(
               data.topic,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: 19, color: Colors.black, fontWeight: FontWeight.bold),
             ),
